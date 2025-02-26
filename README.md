@@ -11,6 +11,6 @@
 ## Installation  
 
 ```bash
-git clone https://github.com/yourusername/knowyourproduct.git
+git clone https://github.com/shashwat558/knowyourproduct.git
 cd knowyourproduct
 npm install
