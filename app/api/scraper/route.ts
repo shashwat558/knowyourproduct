@@ -8,7 +8,7 @@ export async function POST(req: NextRequest){
     const browser = await puppeteer.launch({
         headless: true,
         args: ["--disable-blink-features=AutomationControlled",
-            "--proxy-server=http://your-proxy:port"
+            
         ]
     }
         
@@ -29,8 +29,63 @@ await page.evaluate(() => {
     await page.waitForSelector(".pdp-title")
     const titleElement = await  page.$(".pdp-title");
     const titleText = await page.evaluate(el => el?.textContent, titleElement);
+    
+    await page.waitForSelector(".pdp-name");
+    const productNameElement = await page.$(".pdp-name");
+    const productName = await page.evaluate(el => el?.textContent, productNameElement)
 
-    return NextResponse.json(titleText);
+    await page.waitForSelector(".pdp-price");
+    const priceElement = await page.$(".pdp-price");
+    const price = await page.evaluate(el => el?.textContent, priceElement);
+
+    await page.waitForSelector(".pdp-mrp");
+    const originalMrpElement = await page.$(".pdp-mrp");
+    const mrp = await page.evaluate(el => el?.textContent, originalMrpElement);
+
+    await page.waitForSelector(".supplier-productSellerName");
+    const sellerElement = await page.$(".supplier-productSellerName");
+    const seller = await page.evaluate(el => el?.textContent, sellerElement);
+
+
+
+    await page.waitForSelector(".image-grid-imageContainer");
+    const images = await page.$$eval(".image-grid-image", elements => 
+        elements.map((el) => {
+            const style = el.getAttribute("style");
+            const match = style?.match(/url\("(.+?)"\)/);
+            return match ? match[1] : null
+        })
+    )
+
+    console.log(images);
+
+    // await page.waitForSelector(".expiryDate-container");
+    // const expireyDateElement = await page.$(".expiryDate-container");
+    // const expiryDate = await page.evaluate(el => el?.textContent, expireyDateElement);
+
+    await page.waitForSelector(".detailed-reviews-allReviews");
+    const allreviewElement = await page.$(".detailed-reviews-allReviews");
+    await allreviewElement?.click()
+
+    console.log("clicked");
+
+    await page.waitForSelector(".detailed-reviews-userReviewsContainer", { timeout: 60000 });
+
+const reviews = await page.$$eval(".user-review-reviewTextWrapper", elements => 
+    elements.map(el => el.textContent?.trim() || "")
+);
+
+console.log(reviews);
+
+    console.log(reviews)
+
+    
+
+    
+
+
+
+    return NextResponse.json({titleText, productName, price, mrp, images, seller, reviews})
 
 
 }
