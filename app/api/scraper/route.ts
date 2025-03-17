@@ -143,11 +143,15 @@ await page.evaluate(() => {
 
 
 const getTextContent = async (page: Page, selector: string) => {
-    await page.waitForSelector(selector);
+   try{ await page.waitForSelector(selector);
     const textElement = await page.$(selector);
     const text = await page.evaluate((el) => el?.textContent, textElement);
 
     return text;
+} catch(error){
+    console.log(error)
+    return "N/A"
+}
 
 
 }
@@ -185,5 +189,9 @@ const reviews = await page.$$eval(".user-review-reviewTextWrapper", elements =>
 
 return reviews
 
+
+}
+
+const getProductDetails = async() => {
 
 }
