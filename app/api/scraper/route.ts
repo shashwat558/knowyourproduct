@@ -142,12 +142,14 @@ await page.evaluate(() => {
 }
 
 
-const getTextContent = async (page: Page, selector: string) => {
+const getTextContent = async (page: Page, selector: string): Promise<string> => {
    try{ await page.waitForSelector(selector);
     const textElement = await page.$(selector);
-    const text = await page.evaluate((el) => el?.textContent, textElement);
+    if(!textElement) return "N/A"
+    const text = await page.evaluate((el) => el?.textContent || "N/A", textElement);
 
-    return text;
+
+    return text ?? "";
 } catch(error){
     console.log(error)
     return "N/A"
@@ -175,19 +177,63 @@ const getImages = async(page: Page, selector: string) => {
 
 const getReviews = async (page: Page) => {
 
-    await page.waitForSelector(".detailed-reviews-allReviews");
-    const allreviewElement = await page.$(".detailed-reviews-allReviews");
-    await allreviewElement?.click()
+    try{
+        const allReviewsButton = await page.$(".detailed-reviews-allReviews");
+        if(allReviewsButton){
+            await allReviewsButton?.click()
+            console.log("clicked");
 
-    console.log("clicked");
+            await page.waitForSelector(".detailed-reviews-userReviewsContainer", {
+                timeout: 6000
+            });
 
-    await page.waitForSelector(".detailed-reviews-userReviewsContainer", { timeout: 60000 });
 
-const reviews = await page.$$eval(".user-review-reviewTextWrapper", elements => 
-    elements.map(el => el.textContent?.trim() || "")
-);
 
-return reviews
+        } else {
+            console.log("all reviews button not found searching for reviews on the same page")
+        }
+
+        const reviews = await page.$$eval(".user-review-reviewTextWrapper", 
+            elements => 
+                elements.map(el => el.textContent?.trim() || "")
+        )
+
+        return reviews
+    } catch(error){
+        console.log(error)
+    }
+// 
+    // const allreviewElement = await page.waitForSelector(".detailed-reviews-allReviews");
+    //  if(allreviewElement){
+// 
+    // const allreviewButton = await page.$(".detailed-reviews-allReviews");
+    // await allreviewButton?.click()
+// 
+    // console.log("clicked");
+    // await page.waitForSelector(".detailed-reviews-userReviewsContainer", { timeout: 60000 });
+// 
+    // const reviews = await page.$$eval(".user-review-reviewTextWrapper", elements => 
+    // elements.map(el => el.textContent?.trim() || "")
+// 
+    // )
+    // return reviews
+// 
+// 
+// 
+    // }
+// 
+    // const reviews = await page.$$eval(".user-review-reviewTextWrapper", elements => 
+    // elements.map(el => el.textContent?.trim() || "")
+// 
+// 
+//    
+// 
+
+
+    
+
+
+
 
 
 }
