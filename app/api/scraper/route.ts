@@ -160,6 +160,7 @@ const getTextContent = async (page: Page, selector: string): Promise<string> => 
 
 const getImages = async(page: Page, selector: string) => {
      await page.waitForSelector(selector);
+    //   await page.waitForNavigation({ waitUntil: 'load' });
     const images = await page.$$eval(".image-grid-image", elements => 
         elements.map((el) => {
             const style = el.getAttribute("style");
@@ -184,21 +185,27 @@ const getReviews = async (page: Page) => {
             console.log("clicked");
 
             await page.waitForSelector(".detailed-reviews-userReviewsContainer", {
-                timeout: 6000
+                timeout: 60000
             });
+        const reviews = await page.$$eval(".user-review-reviewTextWrapper", elements => 
+                elements.slice(0,20).map(el => el.textContent?.trim() || "") // Get only the first 20 reviews
+            );
+
+            return reviews;
 
 
 
         } else {
             console.log("all reviews button not found searching for reviews on the same page")
-        }
-
-        const reviews = await page.$$eval(".user-review-reviewTextWrapper", 
+            const reviews = await page.$$eval(".user-review-reviewTextWrapper", 
             elements => 
                 elements.map(el => el.textContent?.trim() || "")
         )
 
         return reviews
+        }
+
+        
     } catch(error){
         console.log(error)
     }

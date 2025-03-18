@@ -3,6 +3,7 @@ import React from 'react'
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
 import { Carousel } from 'react-responsive-carousel';
 import Image from 'next/image';
+import { Lens } from './lens';
 
 
 // const images = [
@@ -30,13 +31,13 @@ const ProductImagesCarousel= ({images}) => {
     
     >
       {images.map((image, index) => (
-        <Image key={index} src={image} alt={"okay"} width={500} height={500} objectFit='cover' className=''/>
+        <Lens key={index}>
+          <Image  src={image} alt={"okay"} width={500} height={500} objectFit='cover' className=''/>
+        </Lens>
+        
       ))}
        </Carousel>
-       <Image  
-       className='max-xl:hidden absolute -left-[15%] bottom-0'
-
-       src={"/assets/icons/hand-drawn-arrow.svg"} alt='hand-drawn-arrow' width={175} height={175}/>
+       
     </div>
   )
 }
