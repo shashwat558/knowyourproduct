@@ -5,6 +5,8 @@ import { BorderBeam } from "@/components/magicui/border-beam";
 import { Meteors } from "@/components/meteor";
 import {Search} from "lucide-react"
 import ProductCard from "@/components/productCard";
+import {ClimbingBoxLoader} from "react-spinners";
+
 
 export type productDetailsType = {
    titleText: string,
@@ -22,9 +24,11 @@ export default function Home() {
   const [productLink, setProductLink] = useState("");
   const [prodcutDetails, setProductDetails] = useState<productDetailsType | null>(null);
   const [items, setItems] = useState<productDetailsType[] | []>([]);
+  const [isLoading, setIsLoading] = useState(false)
   
 
   const handleSearch= async(link: string) => {
+    setIsLoading(true)
     // const myntraRegex = /^https:\/\/www\.myntra\.com\/[\w-]+\/[\w+-]+\/[\w+-]+\/\d+\/buy$/;
 
 
@@ -37,6 +41,7 @@ export default function Home() {
     console.log(data)
     if(data){
       setProductDetails(data)
+      setIsLoading(false)
       setItems((prevItems) => {
         const newItems = [...prevItems, data];
         localStorage.setItem("userItems", JSON.stringify(newItems))
@@ -74,7 +79,7 @@ export default function Home() {
       <p className="text-xl text-gray-700 max-w-[500px]">Proddy helps you shop smarter with AI-generated reviews and lets you chat with your products!</p>
 
       </div>
-      <div className="mx-20 mb-5 mt-20 border shadow-md shadow-gray-500 h-[50pc] w-2/3 rounded-2xl relative flex max-sm:flex flex-col max-sm:mx-3 max-sm:min-w-[100vw]">
+      <div className="mx-20 mb-5 mt-20 border shadow-md shadow-gray-500 min-h-[50pc] max-h-max w-2/3 rounded-2xl relative flex max-sm:flex flex-col max-sm:mx-3 max-sm:min-w-[100vw]">
       <form 
         onSubmit={(e) =>{ 
           e.preventDefault()
@@ -103,10 +108,15 @@ export default function Home() {
       </form>
       
         {prodcutDetails ? <ProductCard productDetails={prodcutDetails}/> : (
-          <div className="w-full h-full flex justify-center items-center text-center">
-            <h1 className="text-4xl font-bold">Looks like you are just browsing... Go ahead, search for something cool!</h1>
-          </div>
+          !isLoading ? (
+            <div className="w-full h-full flex justify-center items-center text-center">
+              <h1 className="text-4xl font-bold">Looks like you are just browsing... Go ahead, search for something cool!</h1>
+            </div>
+          ) : (
+            <ClimbingBoxLoader color="#030303"/>
+          )
         )}
+        
       
       
       <BorderBeam duration={8} size={100} className="from-transparent via-purple-700 to-transparent brightness-200 blur-md"/>
