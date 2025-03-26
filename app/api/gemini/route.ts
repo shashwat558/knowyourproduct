@@ -36,7 +36,7 @@ export async function POST(req: NextRequest){
     The actual reviews you will analyze are:
     reviews = '${ok}'.
 
-    Please generate an overall summary of these reviews. Your summary should:
+    Please generate an overall summary of these reviews and leave some blank lines after each. Your summary should:
     - Include a brief overview of what users like about the product.
     - Mention any common concerns or issues raised by users.
     - Provide a final recommendation for potential buyers, based on the reviews.

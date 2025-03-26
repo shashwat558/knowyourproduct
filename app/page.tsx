@@ -75,8 +75,8 @@ export default function Home() {
       
       <div className="flex flex-col text-center gap-3">
 
-      <h1 className="text-8xl text-black font-bold">Proddy!</h1>
-      <p className="text-xl text-gray-700 max-w-[500px]">Proddy helps you shop smarter with AI-generated reviews and lets you chat with your products!</p>
+      <h1 className="text-8xl font-bold">Proddy!</h1>
+      <p className="text-xl  max-w-[500px]">Proddy helps you shop smarter with AI-generated reviews and lets you chat with your products!</p>
 
       </div>
       <div className="mx-20 mb-5 mt-20 border shadow-md shadow-gray-500 min-h-[50pc] max-h-max w-2/3 rounded-2xl relative flex max-sm:flex flex-col max-sm:mx-3 max-sm:min-w-[100vw]">
@@ -93,7 +93,7 @@ export default function Home() {
             value={productLink}
             onChange={(e) => setProductLink(e.target.value)}
             placeholder="Search for products..."
-            className="w-full px-6 py-4 text-lg text-gray-700 bg-white rounded-2xl shadow-md outline-none transition-all duration-20 placeholder:text-gray-400 focus:ring-2 focus:ring-blue-100 focus:shadow-lg border border-gray-200 hover:border-gray-300"
+            className="w-full px-6 py-4 text-lg text-gray-700 rounded-2xl shadow-md outline-none transition-all duration-20 placeholder:text-gray-400 focus:ring-2 focus:ring-blue-100 focus:shadow-lg border border-gray-200 hover:border-gray-300"
           />
           <button
             type="submit"
