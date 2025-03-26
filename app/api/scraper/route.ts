@@ -96,6 +96,10 @@ import puppeteer, { Page } from "puppeteer";
 export async function POST(req:NextRequest){
     const { productUrl } = await req.json();
 
+    const parts = productUrl.split("/");
+    const productId = parts[parts.length - 2];
+    console.log(productId)
+
     const browser = await puppeteer.launch({
         headless: true,
 
@@ -106,9 +110,18 @@ export async function POST(req:NextRequest){
 
         const page = await browser.newPage();
         await setPage(page);
-        await page.goto(productUrl, {waitUntil: "networkidle2"});
+        await page.goto(productUrl, {waitUntil: "domcontentloaded"});
+        await page.setRequestInterception(true)
+        page.on("request", (req) => {
+            if(req.resourceType() == "stylesheet" || req.resourceType() == "font"){
+                req.abort()
+            } else {
+                req.continue()
+            } 
 
-        const [titleText, productName, price, mrp,  seller, images, reviews] = await Promise.all([
+        })
+
+        const [titleText, productName, price, mrp,  seller, images] = await Promise.all([
             getTextContent(page, ".pdp-title"),
             getTextContent(page, ".pdp-name"),
             getTextContent(page, ".pdp-price"),
@@ -116,10 +129,10 @@ export async function POST(req:NextRequest){
             getTextContent(page, ".supplier-productSellerName"),
             getImages(page, ".image-grid-imageContainer"),
             // getImages(page, ".expiryDate-container"),
-            getReviews(page)
+            
         ])
 
-        return NextResponse.json({titleText, productName, price, mrp, seller, images, reviews})
+        return NextResponse.json({titleText, productName, price, mrp, seller, images})
 
         
     } catch (error) {
@@ -176,75 +189,18 @@ const getImages = async(page: Page, selector: string) => {
 
 }
 
-const getReviews = async (page: Page) => {
-
-    try{
-        const allReviewsButton = await page.$(".detailed-reviews-allReviews");
-        if(allReviewsButton){
-            await allReviewsButton?.click()
-            console.log("clicked");
-
-            await page.waitForSelector(".detailed-reviews-userReviewsContainer", {
-                timeout: 60000
-            });
-        const reviews = await page.$$eval(".user-review-reviewTextWrapper", elements => 
-                elements.slice(0,20).map(el => el.textContent?.trim() || "") // Get only the first 20 reviews
-            );
-
-            return reviews;
 
 
 
-        } else {
-            console.log("all reviews button not found searching for reviews on the same page")
-            const reviews = await page.$$eval(".user-review-reviewTextWrapper", 
-            elements => 
-                elements.map(el => el.textContent?.trim() || "")
-        )
-
-        return reviews
-        }
-
-        
-    } catch(error){
-        console.log(error)
-    }
-// 
-    // const allreviewElement = await page.waitForSelector(".detailed-reviews-allReviews");
-    //  if(allreviewElement){
-// 
-    // const allreviewButton = await page.$(".detailed-reviews-allReviews");
-    // await allreviewButton?.click()
-// 
-    // console.log("clicked");
-    // await page.waitForSelector(".detailed-reviews-userReviewsContainer", { timeout: 60000 });
-// 
-    // const reviews = await page.$$eval(".user-review-reviewTextWrapper", elements => 
-    // elements.map(el => el.textContent?.trim() || "")
-// 
-    // )
-    // return reviews
-// 
-// 
-// 
-    // }
-// 
-    // const reviews = await page.$$eval(".user-review-reviewTextWrapper", elements => 
-    // elements.map(el => el.textContent?.trim() || "")
-// 
-// 
-//    
-// 
-
-
-    
-
-
-
-
-
+export const delay = () => {
+    return new Promise(function(resolve){
+        setTimeout(resolve, 1500)
+    })
 }
 
-const getProductDetails = async() => {
 
-}
+
+
+// const getProductDetails = async() => {
+
+// }

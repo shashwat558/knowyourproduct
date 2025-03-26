@@ -15,7 +15,7 @@ export type productDetailsType = {
    mrp: string,  
    seller: string, 
    images: string[], 
-   reviews: string[]
+  
 }
 
 
@@ -23,6 +23,7 @@ export type productDetailsType = {
 export default function Home() {
   const [productLink, setProductLink] = useState("");
   const [prodcutDetails, setProductDetails] = useState<productDetailsType | null>(null);
+  const [productReviews, setProductReviews] = useState<string[]>([])
   const [items, setItems] = useState<productDetailsType[] | []>([]);
   const [isLoading, setIsLoading] = useState(false)
   
@@ -37,13 +38,23 @@ export default function Home() {
     // if(!validLink){
     //   alert("Please enter only valid mytra product link")
     // }
-    const {data} = await axios.post("/api/scraper", {productUrl: link});
-    console.log(data)
-    if(data){
-      setProductDetails(data)
+
+    const [data1, data2] = await Promise.all([
+      await axios.post("/api/scraper", {productUrl: link}),
+      await axios.post("/api/scraper/reviews", {productUrl: link})
+
+    ])
+
+    const productDetails = await data1.data;
+    const productReviews = await data2.data;
+    console.log(productReviews)
+     
+    
+    if(productDetails){
+      setProductDetails(productDetails)
       setIsLoading(false)
       setItems((prevItems) => {
-        const newItems = [...prevItems, data];
+        const newItems = [...prevItems, productDetails];
         localStorage.setItem("userItems", JSON.stringify(newItems))
         return newItems
 
@@ -52,6 +63,13 @@ export default function Home() {
 
       
     }
+
+    if(productReviews){
+      setProductReviews(productReviews)
+    }
+    
+
+    
 
     
     
@@ -93,7 +111,7 @@ export default function Home() {
             value={productLink}
             onChange={(e) => setProductLink(e.target.value)}
             placeholder="Search for products..."
-            className="w-full px-6 py-4 text-lg text-gray-700 rounded-2xl shadow-md outline-none transition-all duration-20 placeholder:text-gray-400 focus:ring-2 focus:ring-blue-100 focus:shadow-lg border border-gray-200 hover:border-gray-300"
+            className="w-full px-6 py-4 text-lg rounded-2xl shadow-md outline-none transition-all duration-20 placeholder:text-gray-400 focus:ring-2 focus:ring-blue-100 focus:shadow-lg border border-gray-200 hover:border-gray-300"
           />
           <button
             type="submit"
@@ -107,7 +125,7 @@ export default function Home() {
         </div>
       </form>
       
-        {prodcutDetails ? <ProductCard productDetails={prodcutDetails}/> : (
+        {prodcutDetails ? <ProductCard productDetails={prodcutDetails} productReviews={productReviews}/> : (
           !isLoading ? (
             <div className="w-full h-full flex justify-center items-center text-center">
               <h1 className="text-4xl font-bold">Looks like you are just browsing... Go ahead, search for something cool!</h1>
