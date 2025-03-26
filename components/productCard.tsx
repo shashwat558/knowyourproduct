@@ -14,7 +14,7 @@ const ProductCard = ({ productDetails }: { productDetails: productDetailsType })
         </div>
       </div>
 
-      <div className="w-full lg:w-[45%] rounded-2xl flex flex-col gap-6">
+      <div className="w-full lg:w-[45%] rounded-2xl flex flex-col-reverse gap-6">
         <div className="flex-1 p-8 flex flex-col gap-8 bg-gradient-to-b from-white to-gray-50 rounded-2xl shadow-sm border border-gray-100">
           <div className="space-y-2">
             

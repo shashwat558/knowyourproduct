@@ -1,5 +1,5 @@
 import { GoogleGenerativeAI } from "@google/generative-ai";
-import { NextRequest } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
 const GEMINI_API_KEY = process.env.GEMINI_API_KEY ?? "";
 console.log(GEMINI_API_KEY + "this is api key")
@@ -66,8 +66,7 @@ export async function POST(req: NextRequest){
 
     console.log(output);
 
-    return output
-
+   return NextResponse.json({output})
         
 
 

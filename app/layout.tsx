@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { DM_Sans, Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import { ThemeProvider } from "@/components/theme-provider";
+import { ModeToggle } from "@/components/themeToggleButton";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -32,7 +34,18 @@ export default function RootLayout({
       <body
         className={`${DMSans.className} antialiased`}
       >
-        {children}
+        <ThemeProvider
+          attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+        >
+          <ModeToggle />
+
+          {children}
+
+        </ThemeProvider>
+        
       </body>
     </html>
   );
