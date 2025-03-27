@@ -23,7 +23,7 @@ export async function POST(req: NextRequest){
 
 
     console.log("reached here")
-    const ok = connectReviews(reviews);
+    const ok = connectReviews(reviews.reviews);
 
     const defaultPrompt =`
     You are a product review analyst, specializing in summarizing and analyzing user feedback. Your task is to provide a clear, concise, and user-friendly review summary of a product based on the reviews it has received. 

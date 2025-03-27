@@ -10,7 +10,7 @@ export async function POST(req:NextRequest){
     console.log(productId)
 
     const browser = await puppeteer.launch({
-        headless: false,
+        headless: true,
 
         args: ["--disable-blink-features=AutomationControlled"],
     })

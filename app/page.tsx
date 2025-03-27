@@ -40,8 +40,8 @@ export default function Home() {
     // }
 
     const [data1, data2] = await Promise.all([
-      await axios.post("/api/scraper", {productUrl: link}),
-      await axios.post("/api/scraper/reviews", {productUrl: link})
+     axios.post("/api/scraper", {productUrl: link}),
+     axios.post("/api/scraper/reviews", {productUrl: link})
 
     ])
 
