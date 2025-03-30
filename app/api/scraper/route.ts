@@ -1,97 +1,100 @@
-// import { NextRequest, NextResponse } from "next/server";
-// import puppeteer from "puppeteer";
+// // import { NextRequest, NextResponse } from "next/server";
+// // import puppeteer from "puppeteer";
 
 import { NextRequest, NextResponse } from "next/server";
 import puppeteer, { Page } from "puppeteer";
 
+// import { NextRequest, NextResponse } from "next/server";
+// import puppeteer, { Page } from "puppeteer";
 
-// export async function POST(req: NextRequest){
-//     const {productUrl} = await req.json();
 
-//     const browser = await puppeteer.launch({
-//         headless: true,
-//         args: ["--disable-blink-features=AutomationControlled",
+// // export async function POST(req: NextRequest){
+// //     const {productUrl} = await req.json();
+
+// //     const browser = await puppeteer.launch({
+// //         headless: true,
+// //         args: ["--disable-blink-features=AutomationControlled",
             
-//         ]
-//     }
+// //         ]
+// //     }
         
-//     );
-//     const page = await browser.newPage();
-//     await page.setUserAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36");
+// //     );
+// //     const page = await browser.newPage();
+// //     await page.setUserAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36");
 
-// await page.evaluate(() => {
-//     Object.defineProperty(navigator, "webdriver", { get: () => false });
-// });
+// // await page.evaluate(() => {
+// //     Object.defineProperty(navigator, "webdriver", { get: () => false });
+// // });
 
 
-//     await page.goto(productUrl, {
-//         waitUntil: "networkidle2"
-//     });
+// //     await page.goto(productUrl, {
+// //         waitUntil: "networkidle2"
+// //     });
 
-//     await page.setViewport({width: 1024, height: 1080})
-//     await page.waitForSelector(".pdp-title")
-//     const titleElement = await  page.$(".pdp-title");
-//     const titleText = await page.evaluate(el => el?.textContent, titleElement);
+// //     await page.setViewport({width: 1024, height: 1080})
+// //     await page.waitForSelector(".pdp-title")
+// //     const titleElement = await  page.$(".pdp-title");
+// //     const titleText = await page.evaluate(el => el?.textContent, titleElement);
     
-//     await page.waitForSelector(".pdp-name");
-//     const productNameElement = await page.$(".pdp-name");
-//     const productName = await page.evaluate(el => el?.textContent, productNameElement)
+// //     await page.waitForSelector(".pdp-name");
+// //     const productNameElement = await page.$(".pdp-name");
+// //     const productName = await page.evaluate(el => el?.textContent, productNameElement)
 
-//     await page.waitForSelector(".pdp-price");
-//     const priceElement = await page.$(".pdp-price");
-//     const price = await page.evaluate(el => el?.textContent, priceElement);
+// //     await page.waitForSelector(".pdp-price");
+// //     const priceElement = await page.$(".pdp-price");
+// //     const price = await page.evaluate(el => el?.textContent, priceElement);
 
-//     await page.waitForSelector(".pdp-mrp");
-//     const originalMrpElement = await page.$(".pdp-mrp");
-//     const mrp = await page.evaluate(el => el?.textContent, originalMrpElement);
+// //     await page.waitForSelector(".pdp-mrp");
+// //     const originalMrpElement = await page.$(".pdp-mrp");
+// //     const mrp = await page.evaluate(el => el?.textContent, originalMrpElement);
 
-//     await page.waitForSelector(".supplier-productSellerName");
-//     const sellerElement = await page.$(".supplier-productSellerName");
-//     const seller = await page.evaluate(el => el?.textContent, sellerElement);
+// //     await page.waitForSelector(".supplier-productSellerName");
+// //     const sellerElement = await page.$(".supplier-productSellerName");
+// //     const seller = await page.evaluate(el => el?.textContent, sellerElement);
 
 
 
-//     await page.waitForSelector(".image-grid-imageContainer");
-//     const images = await page.$$eval(".image-grid-image", elements => 
-//         elements.map((el) => {
-//             const style = el.getAttribute("style");
-//             const match = style?.match(/url\("(.+?)"\)/);
-//             return match ? match[1] : null
-//         })
-//     )
+// //     await page.waitForSelector(".image-grid-imageContainer");
+// //     const images = await page.$$eval(".image-grid-image", elements => 
+// //         elements.map((el) => {
+// //             const style = el.getAttribute("style");
+// //             const match = style?.match(/url\("(.+?)"\)/);
+// //             return match ? match[1] : null
+// //         })
+// //     )
 
-//     console.log(images);
+// //     console.log(images);
 
-//     // await page.waitForSelector(".expiryDate-container");
-//     // const expireyDateElement = await page.$(".expiryDate-container");
-//     // const expiryDate = await page.evaluate(el => el?.textContent, expireyDateElement);
+// //     // await page.waitForSelector(".expiryDate-container");
+// //     // const expireyDateElement = await page.$(".expiryDate-container");
+// //     // const expiryDate = await page.evaluate(el => el?.textContent, expireyDateElement);
 
-//     await page.waitForSelector(".detailed-reviews-allReviews");
-//     const allreviewElement = await page.$(".detailed-reviews-allReviews");
-//     await allreviewElement?.click()
+// //     await page.waitForSelector(".detailed-reviews-allReviews");
+// //     const allreviewElement = await page.$(".detailed-reviews-allReviews");
+// //     await allreviewElement?.click()
 
-//     console.log("clicked");
+// //     console.log("clicked");
 
-//     await page.waitForSelector(".detailed-reviews-userReviewsContainer", { timeout: 60000 });
+// //     await page.waitForSelector(".detailed-reviews-userReviewsContainer", { timeout: 60000 });
 
-// const reviews = await page.$$eval(".user-review-reviewTextWrapper", elements => 
-//     elements.map(el => el.textContent?.trim() || "")
-// );
+// // const reviews = await page.$$eval(".user-review-reviewTextWrapper", elements => 
+// //     elements.map(el => el.textContent?.trim() || "")
+// // );
 
-// console.log(reviews);
+// // console.log(reviews);
 
-//     console.log(reviews)
-
-    
+// //     console.log(reviews)
 
     
 
+    
 
 
-//     return NextResponse.json({titleText, productName, price, mrp, images, seller, reviews})
+
+// //     return NextResponse.json({titleText, productName, price, mrp, images, seller, reviews})
 
 
-// }
+// // }
 
 export async function POST(req:NextRequest){
     const { productUrl } = await req.json();
@@ -101,7 +104,7 @@ export async function POST(req:NextRequest){
     console.log(productId)
 
     const browser = await puppeteer.launch({
-        headless: true,
+        headless: "shell",
 
         args: ["--disable-blink-features=AutomationControlled"],
     })
@@ -113,7 +116,7 @@ export async function POST(req:NextRequest){
         await page.goto(productUrl, {waitUntil: "domcontentloaded"});
         await page.setRequestInterception(true)
         page.on("request", (req) => {
-            if(req.resourceType() == "stylesheet" || req.resourceType() == "font"){
+            if(req.resourceType() == "stylesheet" && req.resourceType() == "font"){
                 req.abort()
             } else {
                 req.continue()
@@ -192,15 +195,58 @@ const getImages = async(page: Page, selector: string) => {
 
 
 
-export const delay = () => {
-    return new Promise(function(resolve){
-        setTimeout(resolve, 1500)
-    })
-}
+// export const delay = () => {
+//     return new Promise(function(resolve){
+//         setTimeout(resolve, 1500)
+//     })
+// }
 
 
 
 
-// const getProductDetails = async() => {
+// // const getProductDetails = async() => {
 
+// // }
+
+
+// import axios from 'axios';
+// import * as cheerio from 'cheerio';
+// import { NextRequest, NextResponse } from 'next/server';
+
+// export async function POST(req:NextRequest){
+//     const {productUrl} = await req.json();
+
+//     try{
+
+//         const response = await axios.get(productUrl);
+//         const $ = cheerio.load(response.data);
+//          {/*title text */}
+//          const titleText = $(".pdp-title").text().trim();
+
+//          const productName = $(".pdp-name").text().trim();
+
+//          const price = $(".pdp-price").text().trim();
+
+//          const mrp = $(".pdp-mrp").text().trim();
+
+//          const sellerName = $(".supplier-productSellerName").text().trim();
+
+//          const images = $(".image-grid-image")
+//          .map((_,el) => {
+//             const style = $(el).attr("style");
+//             const match = style?.match(/url\("(.+?)"\)/);
+//             return match ? match[1] : null
+//          }).get();
+
+         
+//          return NextResponse.json({titleText, productName, price, mrp, sellerName, images});
+
+         
+
+
+
+//     } catch(error){
+//         console.log(error)
+//         return NextResponse.json({message: "Error fetching product details"})
+//     }
 // }

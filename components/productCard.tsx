@@ -5,7 +5,7 @@ import ProductImagesCarousel from './magicui/ProductImagesCarousel';
 import { productDetailsType } from '@/app/page';
 import AiReviewCard from './AiReviewCard';
 
-const ProductCard = ({ productDetails, productReviews }: { productDetails: productDetailsType , productReviews: string[]}) => {
+const ProductCard = ({ productDetails, productLink }: { productDetails: productDetailsType , productLink: string}) => {
   return (
     <div className="w-full max-w-6xl mx-auto p-4 flex flex-col lg:flex-row gap-3 transition-all duration-500 ease-out animate-fade-in">
       <div className="w-full lg:w-[55%] rounded-2xl flex-col-reverse shadow-sm border border-gray-100 overflow-hidden bg-white/80 backdrop-blur-sm transition-all duration-300 hover:shadow-md">
@@ -58,7 +58,7 @@ const ProductCard = ({ productDetails, productReviews }: { productDetails: produ
         </div>
         
         {/* AI Reviews section with white to light blue background transition */}
-        <AiReviewCard reviews={productReviews} productName={productDetails.productName}/>
+        <AiReviewCard productLink={productLink} productName={productDetails.productName}/>
       </div>
     </div>
   );

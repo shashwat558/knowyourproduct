@@ -1,13 +1,33 @@
+import axios from 'axios';
 import React, { useState, useEffect } from 'react';
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 
-const AiReviewCard = ({ reviews, productName }: { reviews: string[], productName: string }) => {
+const AiReviewCard = ({ productLink, productName }: { productLink: string, productName: string }) => {
+     
+
+    
+     
+     
     const [aiGeneratedReview, setAiGeneratedReview] = useState<string>('');
     const [loading, setLoading] = useState<boolean>(true);
+    const [reviews, setReviews] = useState<string[]|null>([]);
 
     useEffect(() => {
-        const fetchAiReview = async () => {
+
+        const fetchReviews = async() => {
+            try {
+                const response = await axios.post("/api/scraper/reviews", {productLink});
+                const data = response.data;
+                console.log(data);
+                setReviews(data)
+                fetchAiReview(data)
+            } catch (error) {
+                console.log(error)
+            }
+        }
+
+        const fetchAiReview = async (reviewsData) => {
             try {
                 const response = await fetch("/api/gemini", {
                     method: "POST",
@@ -31,12 +51,12 @@ const AiReviewCard = ({ reviews, productName }: { reviews: string[], productName
             }
         };
 
-        fetchAiReview();
-    }, [reviews, productName]);
+        
+    }, [reviews, productName, productLink]);
 
     if (loading) {
         return (
-            <div className="p-8 rounded-2xl shadow-sm border border-gray-100 bg-gradient-to-b from-white to-blue-300 transition-all duration-300 hover:shadow-md max-h-[25pc] overflow-scroll">
+            <div className="p-8 rounded-2xl shadow-sm border border-gray-100 bg-gradient-to-b from-white to-blue-300 transition-all duration-300 hover:shadow-md max-h-[20pc] overflow-scroll">
                 <h3 className="text-xl font-semibold text-gray-800 mb-3">AI Reviews</h3>
                 <p className="text-gray-600">Loading...</p>
             </div>

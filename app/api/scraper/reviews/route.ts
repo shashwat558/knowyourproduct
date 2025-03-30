@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import puppeteer, { Page } from "puppeteer";
-import { delay } from "../route";
+
 
 export async function POST(req:NextRequest){
     const { productUrl } = await req.json();
@@ -10,7 +10,7 @@ export async function POST(req:NextRequest){
     console.log(productId)
 
     const browser = await puppeteer.launch({
-        headless: true,
+        headless: "shell",
 
         args: ["--disable-blink-features=AutomationControlled"],
     })
@@ -66,9 +66,6 @@ const getReviews = async (page: Page) => {
             })
            
 
-        await delay();
-        await delay()
-        await delay()
         
             
 

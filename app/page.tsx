@@ -23,7 +23,7 @@ export type productDetailsType = {
 export default function Home() {
   const [productLink, setProductLink] = useState("");
   const [prodcutDetails, setProductDetails] = useState<productDetailsType | null>(null);
-  const [productReviews, setProductReviews] = useState<string[]>([])
+  
   const [items, setItems] = useState<productDetailsType[] | []>([]);
   const [isLoading, setIsLoading] = useState(false)
   
@@ -39,15 +39,11 @@ export default function Home() {
     //   alert("Please enter only valid mytra product link")
     // }
 
-    const [data1, data2] = await Promise.all([
-     axios.post("/api/scraper", {productUrl: link}),
-     axios.post("/api/scraper/reviews", {productUrl: link})
-
-    ])
+    const data1 = await axios.post("/api/scraper", {productUrl: link});
+     
 
     const productDetails = await data1.data;
-    const productReviews = await data2.data;
-    console.log(productReviews)
+    
      
     
     if(productDetails){
@@ -64,14 +60,7 @@ export default function Home() {
       
     }
 
-    if(productReviews){
-      setProductReviews(productReviews)
-    }
-    
-
-    
-
-    
+       
     
 
   }
@@ -125,7 +114,7 @@ export default function Home() {
         </div>
       </form>
       
-        {prodcutDetails ? <ProductCard productDetails={prodcutDetails} productReviews={productReviews}/> : (
+        {prodcutDetails ? <ProductCard productDetails={prodcutDetails} productLink={productLink}/> : (
           !isLoading ? (
             <div className="w-full h-full flex justify-center items-center text-center">
               <h1 className="text-4xl font-bold">Looks like you are just browsing... Go ahead, search for something cool!</h1>
