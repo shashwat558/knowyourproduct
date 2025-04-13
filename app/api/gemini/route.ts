@@ -34,7 +34,7 @@ export async function POST(req: NextRequest){
     reviews = '(1) The product is great! It's very well designed and easy to use. (2) I'm not happy with the product, it stopped working after a week. (3) Overall, it's a decent product, but I wish it was more durable.'
 
     The actual reviews you will analyze are:
-    reviews = '${ok}'.
+    reviews = '${ok ? ok : ""}'.
 
     Please generate an overall summary of these reviews and leave some blank lines after each. Your summary should:
     - Include a brief overview of what users like about the product.
@@ -42,7 +42,9 @@ export async function POST(req: NextRequest){
     - Provide a final recommendation for potential buyers, based on the reviews.
     - Ensure the summary is structured in a clear and friendly way, making it easy to understand for someone considering purchasing this product.
 
-    Make sure the tone is helpful, balanced, and professional, and avoid being too technical.`;
+    Make sure the tone is helpful, balanced, and professional, and avoid being too technical.
+    if there are no review provided then write something helpful why review is not given
+    `;
 ;
 
     console.log("hi");

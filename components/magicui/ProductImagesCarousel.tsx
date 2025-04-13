@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 "use client"
 import React from 'react'
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
@@ -17,7 +18,7 @@ import { Lens } from './lens';
 
 
 // ]
-
+//@ts-ignore
 const ProductImagesCarousel= ({images}) => {
   return (
     <div className='hero-carousel overflow-hidden'>
@@ -30,7 +31,10 @@ const ProductImagesCarousel= ({images}) => {
        infiniteLoop     
     
     >
-      {images.map((image, index) => (
+      
+      {images.map(
+        //@ts-ignore
+        (image, index) => (
         <Lens key={index}>
           <Image  src={image} alt={"okay"} width={500} height={500} objectFit='cover' className=''/>
         </Lens>

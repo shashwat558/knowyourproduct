@@ -85,7 +85,7 @@ const getReviews = async (page: Page) => {
             break
 
         }
-        let newHeight = await page.evaluate(() => document.body.scrollHeight);
+        const  newHeight = await page.evaluate(() => document.body.scrollHeight);
         
         if(newHeight == previousHeight){
             console.log("Reached to the bottom of the page")

@@ -26,6 +26,8 @@ export default function Home() {
   
   const [items, setItems] = useState<productDetailsType[] | []>([]);
   const [isLoading, setIsLoading] = useState(false)
+
+  console.log(items);
   
 
   const handleSearch= async(link: string) => {
