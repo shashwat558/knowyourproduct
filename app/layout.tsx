@@ -3,6 +3,7 @@ import { DM_Sans} from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
 import { ModeToggle } from "@/components/themeToggleButton";
+import Aurora from "@/components/aroura";
 
 
 
@@ -28,12 +29,22 @@ export default function RootLayout({
       <body
         className={`${DMSans.className} antialiased`}
       >
+        <div className="absolute top-0 w-screen z-[-1] h-[40vh] backdrop-blur-md">
+          <Aurora  colorStops={["#FF3C38", "#FF7F11", "#5B2C6F"]}
+
+          blend={0.5}
+
+          amplitude={1.0}
+
+          speed={0.5} />
+        </div>
         <ThemeProvider
           attribute="class"
             defaultTheme="system"
             enableSystem
             disableTransitionOnChange
         >
+          
           <ModeToggle />
 
           {children}

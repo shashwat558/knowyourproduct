@@ -69,12 +69,12 @@ const AiReviewCard = ({ productLink, productName }: { productLink: string, produ
     }
 
     return (
-        <div className="p-8 rounded-2xl shadow-sm border border-gray-100 bg-gradient-to-b from-white to-blue-50 transition-all duration-300 hover:shadow-md overflow-scroll">
+        <div className="relative p-8 rounded-2xl shadow-sm border border-gray-100 bg-gradient-to-b from-white to-blue-50 transition-all duration-300 hover:shadow-md overflow-scroll">
             <h3 className="text-xl font-semibold text-gray-800 mb-3">AI Reviews</h3>
             <p className="text-gray-600">
                 <ReactMarkdown remarkPlugins={[remarkGfm]} >{aiGeneratedReview}</ReactMarkdown>
             </p>
-            <Button>Chat with me!</Button>
+            {aiGeneratedReview && <Button className='absolute bottom-[10%] left-[30%] shadow-lg bg-yellow-300 rounded-full font-semibold'>Chat with me!</Button>}
         </div>
     );
 }

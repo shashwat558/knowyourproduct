@@ -49,9 +49,9 @@ const ProductCard = ({ productDetails, productLink }: { productDetails: productD
             </div>
             
             <div className="mt-8 flex gap-4">
-              <button className="flex-1 py-3 px-6 rounded-xl bg-gradient-to-r from-gray-900 to-gray-700 text-white font-medium transition-all duration-300 hover:shadow-lg hover:from-gray-800 hover:to-gray-600 active:scale-[0.98]">
+              <a href={productLink} type='_blank' className="flex-1 py-3 px-6 rounded-xl bg-gradient-to-r from-gray-900 to-gray-700 text-white font-medium transition-all duration-300 hover:shadow-lg hover:from-gray-800 hover:to-gray-600 active:scale-[0.98] text-center font-semibold">
                 Buy Now
-              </button>
+              </a>
               
             </div>
           </div>
