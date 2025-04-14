@@ -6,6 +6,8 @@ import { Meteors } from "@/components/meteor";
 import {Search} from "lucide-react"
 import ProductCard from "@/components/productCard";
 import {ClimbingBoxLoader} from "react-spinners";
+import Image from "next/image";
+
 
 
 export type productDetailsType = {
@@ -23,6 +25,7 @@ export type productDetailsType = {
 export default function Home() {
   const [productLink, setProductLink] = useState("");
   const [prodcutDetails, setProductDetails] = useState<productDetailsType | null>(null);
+  
   
   const [items, setItems] = useState<productDetailsType[] | []>([]);
   const [isLoading, setIsLoading] = useState(false)
@@ -67,6 +70,8 @@ export default function Home() {
 
   }
 
+  
+
   useEffect(() => {
     const storedItems = localStorage.getItem("userItems");
 
@@ -74,6 +79,7 @@ export default function Home() {
       setItems(JSON.parse(storedItems))
     }
   } ,[])
+
 
 
 
@@ -119,7 +125,7 @@ export default function Home() {
         {prodcutDetails ? <ProductCard productDetails={prodcutDetails} productLink={productLink}/> : (
           !isLoading ? (
             <div className="w-full h-full flex justify-center items-center text-center">
-              <h1 className="text-4xl font-bold">Looks like you are just browsing... Go ahead, search for something cool!</h1>
+              <Image src={"/detective-unscreen.gif"} alt="gif" width={200} height={200}/>
             </div>
           ) : (
             <ClimbingBoxLoader color="#030303"/>

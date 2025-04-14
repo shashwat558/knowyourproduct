@@ -4,6 +4,17 @@ import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { Button } from './ui/button';
 
+import { ChatStoreType, useChatStore } from '@/lib/store/chatStore';
+import { useRouter } from 'next/navigation';
+
+
+function uuidv4() {
+  return "10000000-1000-4000-8000-100000000000".replace(/[018]/g, c =>
+    (+c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> +c / 4).toString(16)
+  );
+}
+
+
 const AiReviewCard = ({ productLink, productName }: { productLink: string, productName: string }) => {
      
 
@@ -12,7 +23,11 @@ const AiReviewCard = ({ productLink, productName }: { productLink: string, produ
      
     const [aiGeneratedReview, setAiGeneratedReview] = useState<string>('');
     const [loading, setLoading] = useState<boolean>(true);
+    const {setSessionId} = useChatStore() as ChatStoreType;
+    const router = useRouter();
     // const [reviews, setReviews] = useState<string[]|null>([]);
+
+    const dashedProductName = productName.split(" ").join("-");
 
     useEffect(() => {
 
@@ -59,6 +74,24 @@ const AiReviewCard = ({ productLink, productName }: { productLink: string, produ
         
     }, [productName, productLink]);
 
+  useEffect(() => {
+     
+    
+    
+   const key = `chat_session_${dashedProductName}`;
+        let sessionId = localStorage.getItem(key);
+        if (!sessionId) {
+        sessionId = uuidv4();
+        localStorage.setItem(key, sessionId);
+        }
+
+    setSessionId(sessionId)
+
+    
+  },[dashedProductName, setSessionId])
+
+
+
     if (loading) {
         return (
             <div className="p-8 rounded-2xl shadow-sm border border-gray-100 bg-gradient-to-b from-white to-blue-300 transition-all duration-300 hover:shadow-md max-h-[20pc] overflow-scroll">
@@ -74,7 +107,10 @@ const AiReviewCard = ({ productLink, productName }: { productLink: string, produ
             <p className="text-gray-600">
                 <ReactMarkdown remarkPlugins={[remarkGfm]} >{aiGeneratedReview}</ReactMarkdown>
             </p>
-            {aiGeneratedReview && <Button className='absolute bottom-[10%] left-[30%] shadow-lg bg-yellow-300 rounded-full font-semibold'>Chat with me!</Button>}
+            {aiGeneratedReview && <Button onClick={() => {
+                router.push(`/product/chat/${dashedProductName}`)
+
+            }} className='absolute bottom-[10%] left-[30%] shadow-lg bg-yellow-300 rounded-full font-semibold'>Chat with me!</Button>}
         </div>
     );
 }
